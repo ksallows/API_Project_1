@@ -3,22 +3,33 @@ const baseURL = "https://pokeapi.co/api/v2/pokemon-species/";
 let increment;
 
 const list = document.getElementById("pokedex");
-
+const listItem = document.createElement("li");
+const header = document.createElement("h3")
 const loadMoreButton = document.getElementById("load");
 
-let getThePokemon = (number) => {
-    fetch(baseURL + number)
+let listCollection = [];
+
+let getThePokemon = (number) => { //api call
+    fetch(baseURL + number, { mode: "cors" })
         .then(response => response.json())
-        .then(pokemon => displayPokemon(pokemon))
+        .then(pokemon => populatePokemon(pokemon))
         .catch(error => console.log(error))
 }
 
-let displayPokemon = (pokemonJSON) => {
-    let listItem = document.createElement("li");
-    let header = document.createElement("h3")
-    header.innerHTML = pokemonJSON.name;
-    list.appendChild(listItem);
-    listItem.appendChild(header);
+let populatePokemon = (pokemonJSON) => { //populate the list of pokemon since they don't come in order from the api
+    let pokemonObj = {
+        name: pokemonJSON.name,
+        id: pokemonJSON.id,
+    }
+    listCollection.push(pokemonObj);
+}
+
+let displayPokemon = () => { //display the collection on the page
+    for (i = 1; i <= 10; i++) {
+        header.innerHTML = listCollection[(i - 1)];
+        list.appendChild(listItem);
+        listItem.appendChild(header);
+    }
 }
 
 let loadMore = () => {
@@ -34,4 +45,6 @@ window.addEventListener("DOMContentLoaded", () => {
         getThePokemon(i);
     }
     increment = 10;
+    displayPokemon;
+    console.log(listCollection);
 })
