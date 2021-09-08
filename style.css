@@ -2,3 +2,8 @@
     text-transform: uppercase;
     list-style-type: none;
 }
+
+#load {
+    display:inline-block;
+    background-color: green;
+}

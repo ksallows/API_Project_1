@@ -2,9 +2,9 @@ const baseURL = "https://pokeapi.co/api/v2/pokemon-species/";
 
 let increment;
 
-let list = document.getElementById("pokedex");
+const list = document.getElementById("pokedex");
 
-let loadMoreButton = document.getElementById("load");
+const loadMoreButton = document.getElementById("load");
 
 let getThePokemon = (number) => {
     fetch(baseURL + number)
@@ -22,17 +22,16 @@ let displayPokemon = (pokemonJSON) => {
 }
 
 let loadMore = () => {
-    for (i = 1; i <= 10; i++) { //898 pokemon, load first 10 cuz that's a lot
-        getThePokemon(loadMore);
+    for (i = 1; i <= 10; i++) {
+        getThePokemon(increment);
         increment++
     }
 }
 
-loadMoreButton.addEventListener(onclick, loadMore())
-
-window.onload = function () {
+window.addEventListener("DOMContentLoaded", () => {
+    loadMoreButton.addEventListener("click", loadMore);
     for (i = 1; i <= 10; i++) { //898 pokemon, load first 10 cuz that's a lot
         getThePokemon(i);
-        increment = 10;
     }
-}
+    increment = 10;
+})
