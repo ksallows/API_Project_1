@@ -1,50 +1,76 @@
 const baseURL = "https://pokeapi.co/api/v2/pokemon-species/";
 
-let increment;
-
-const list = document.getElementById("pokedex");
-const listItem = document.createElement("li");
-const header = document.createElement("h3")
+const pokedex = document.getElementById("pokedex");
 const loadMoreButton = document.getElementById("load");
 
-let listCollection = [];
+let imageUrl = (pokemonName) => `https://img.pokemondb.net/artwork/large/${pokemonName}.jpg`;
 
-let getThePokemon = (number) => { //api call
+let randomPokemonNumber = () => {
+    let min = Math.ceil(1);
+    let max = Math.floor(898);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+let getThePokemon = (number) => {
     fetch(baseURL + number, { mode: "cors" })
         .then(response => response.json())
-        .then(pokemon => populatePokemon(pokemon))
+        .then(pokemon => displayPokemon(pokemon))
         .catch(error => console.log(error))
 }
 
-let populatePokemon = (pokemonJSON) => { //populate the list of pokemon since they don't come in order from the api
-    let pokemonObj = {
-        name: pokemonJSON.name,
-        id: pokemonJSON.id,
+let getTheEnglishFlavorText = (pokemonJSON) => { // api has pokdedex entries in different languages but not always english first!!! why
+    for (i = 0; i < Object.keys(pokemonJSON).length; i++) {
+        if (pokemonJSON[i].language.name == "en") {
+            return pokemonJSON[i].flavor_text;
+        }
     }
-    listCollection.push(pokemonObj);
 }
 
-let displayPokemon = () => { //display the collection on the page
-    for (i = 1; i <= 10; i++) {
-        header.innerHTML = listCollection[(i - 1)];
-        list.appendChild(listItem);
-        listItem.appendChild(header);
-    }
+let displayPokemon = (pokemonJSON) => {
+    let pokemonName = pokemonJSON.name;
+
+    // <div class ="card">
+    let card = document.createElement("div");
+    card.classList.add("card");
+    card.classList.add("mx-1");
+    card.classList.add("my-1");
+
+    // <div class="card-body">
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+
+    // <h5 class="card-title">
+    let cardTitle = document.createElement("h5");
+    cardTitle.classList.add("card-title");
+    cardTitle.innerHTML = pokemonName;
+
+    // <image class="card-img-top">
+    let image = document.createElement("img");
+    image.classList.add("card-img-top");
+    image.src = imageUrl(pokemonName)
+
+    // <p class="card-text">
+    let cardText = document.createElement("p");
+    cardText.classList.add("card-text");
+    cardText.innerHTML = getTheEnglishFlavorText(pokemonJSON.flavor_text_entries);
+
+    pokedex.appendChild(card);
+    card.appendChild(image);
+    card.appendChild(cardBody);
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
 }
 
 let loadMore = () => {
-    for (i = 1; i <= 10; i++) {
-        getThePokemon(increment);
-        increment++
+    for (i = 1; i <= 14; i++) {
+        getThePokemon(randomPokemonNumber());
     }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     loadMoreButton.addEventListener("click", loadMore);
-    for (i = 1; i <= 10; i++) { //898 pokemon, load first 10 cuz that's a lot
-        getThePokemon(i);
+    for (i = 1; i <= 14; i++) {
+        getThePokemon(randomPokemonNumber());
     }
-    increment = 10;
     displayPokemon;
-    console.log(listCollection);
 })

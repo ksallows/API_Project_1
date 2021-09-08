@@ -1,9 +1,30 @@
-#pokedex > li {
-    text-transform: uppercase;
-    list-style-type: none;
+body {
+    font-family: Roboto, sans-serif;
+}
+
+.card-img-top {
+    object-fit:cover;
+    width:240px;
+    height:240px;
+    margin:auto;
+    display:block;
+}
+
+.card {
+    width:250px;
+    display:inline-block;
 }
 
 #load {
-    display:inline-block;
-    background-color: green;
+    display:block;
+    width:200px;
+}
+
+.card-text {
+    height:100px;
+    overflow:auto;
+}
+
+.card-title {
+    text-transform:uppercase;
 }
