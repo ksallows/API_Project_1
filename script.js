@@ -5,6 +5,19 @@ const loadMoreButton = document.getElementById("load");
 
 let imageUrl = (pokemonName) => `https://img.pokemondb.net/artwork/large/${pokemonName}.jpg`;
 
+//pokemon with forms that make the image fetch by url not work
+const exceptions = {
+    eiscue: "eiscue-ice",
+    lycanroc: "lycanroc-midday",
+    urshifu: "urshifu-single-strike",
+    morpeko: "morpeko-full-belly",
+    giratina: "giratina-altered",
+    wishiwashi: "wishiwashi-solo",
+    shaymin: "shaymin-land"
+}
+
+let checkNameForURL = (pokemonName) => Object.keys(exceptions).includes(pokemonName) ? exceptions[pokemonName] : pokemonName
+
 let randomPokemonNumber = () => {
     let min = Math.ceil(1);
     let max = Math.floor(898);
@@ -18,7 +31,8 @@ let getThePokemon = (number) => {
         .catch(error => console.log(error))
 }
 
-let getTheEnglishFlavorText = (pokemonJSON) => { // api has pokdedex entries in different languages but not always english first!!! why
+//api has pokdedex entries in different languages but not always english first!
+let getTheEnglishFlavorText = (pokemonJSON) => {
     for (i = 0; i < Object.keys(pokemonJSON).length; i++) {
         if (pokemonJSON[i].language.name == "en") {
             return pokemonJSON[i].flavor_text;
@@ -47,7 +61,7 @@ let displayPokemon = (pokemonJSON) => {
     // <image class="card-img-top">
     let image = document.createElement("img");
     image.classList.add("card-img-top");
-    image.src = imageUrl(pokemonName)
+    image.src = imageUrl(checkNameForURL(pokemonName));
 
     // <p class="card-text">
     let cardText = document.createElement("p");
@@ -65,6 +79,7 @@ let loadMore = () => {
     for (i = 1; i <= 14; i++) {
         getThePokemon(randomPokemonNumber());
     }
+    //window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
 }
 
 window.addEventListener("DOMContentLoaded", () => {

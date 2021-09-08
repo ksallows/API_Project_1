@@ -1,23 +1,32 @@
-body {
-    font-family: Roboto, sans-serif;
+html {
+    font-family:Roboto, sans-serif;
+    overflow-anchor:none;
 }
 
 .card-img-top {
     object-fit:cover;
-    width:240px;
-    height:240px;
+    width:220px;
+    height:220px;
     margin:auto;
     display:block;
+    border-radius:20px;
+    margin-top:10px;
+    border:3px solid #ff991b;
 }
 
 .card {
     width:250px;
     display:inline-block;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 39%, rgba(255,205,143,1) 100%);
+    text-align:left;
+    border:0;
+    border-radius:20px;
 }
 
 #load {
     display:block;
-    width:200px;
+    width:100%;
+    border-radius:0;
 }
 
 .card-text {
@@ -27,4 +36,8 @@ body {
 
 .card-title {
     text-transform:uppercase;
+}
+
+#container {
+    text-align:center;
 }
