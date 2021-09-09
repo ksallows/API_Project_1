@@ -1,10 +1,9 @@
-html {
-    font-family:Roboto, sans-serif;
-    overflow-anchor:none;
+body {
+    font-family:"Roboto", sans-serif;
 }
 
 .card-img-top {
-    object-fit:cover;
+    object-fit:scale-down;
     width:220px;
     height:220px;
     margin:auto;
@@ -12,12 +11,13 @@ html {
     border-radius:20px;
     margin-top:10px;
     border:3px solid #ff991b;
+    background-color:#fff;
 }
 
 .card {
     width:250px;
     display:inline-block;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 39%, rgba(255,205,143,1) 100%);
+    background:linear-gradient(180deg, rgba(255,255,255,0) 30%, rgba(255,205,143,1) 100%);
     text-align:left;
     border:0;
     border-radius:20px;
@@ -32,12 +32,34 @@ html {
 .card-text {
     height:100px;
     overflow:auto;
+    scrollbar-color:#ff991b transparent;
+    padding:5px;
 }
 
 .card-title {
     text-transform:uppercase;
+    font-weight:700;
 }
 
 #container {
     text-align:center;
 }
+
+.fire-type {color:#ff742e;}
+.water-type {color:#4dccff;}
+.grass-type {color:#088c39;}
+.normal-type {color:#a6a090;}
+.ghost-type {color:#ff742e;}
+.flying-type {color:#a3bfc9;}
+.fairy-type {color:#e896eb;}
+.fighting-type {color:#ab4709;}
+.bug-type {color:#a7ad4c;}
+.psychic-type {color:#915196;}
+.steel-type {color:#bfbfbf;}
+.poison-type {color:#8032ad;}
+.ground-type {color:#b5975b;}
+.rock-type {color:#574931;}
+.electric-type {color:#ffdd00;}
+.dragon-type {color:#5816ba;}
+.dark-type {color:#525252;}
+.ice-type {color:#52fcff}

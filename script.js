@@ -1,4 +1,8 @@
-const baseURL = "https://pokeapi.co/api/v2/pokemon-species/";
+
+//pokemon-species endpoint contains flavor text (pokdedex)
+//pokemon endpoint contains type info
+const baseURLSpecies = "https://pokeapi.co/api/v2/pokemon-species/";
+const baseURL = "https://pokeapi.co/api/v2/pokemon/";
 
 const pokedex = document.getElementById("pokedex");
 const loadMoreButton = document.getElementById("load");
@@ -13,7 +17,8 @@ const exceptions = {
     morpeko: "morpeko-full-belly",
     giratina: "giratina-altered",
     wishiwashi: "wishiwashi-solo",
-    shaymin: "shaymin-land"
+    shaymin: "shaymin-land",
+    oricorio: "oricorio-baile"
 }
 
 let checkNameForURL = (pokemonName) => Object.keys(exceptions).includes(pokemonName) ? exceptions[pokemonName] : pokemonName
@@ -24,11 +29,29 @@ let randomPokemonNumber = () => {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+//get JSON species data with flavor text
 let getThePokemon = (number) => {
-    fetch(baseURL + number, { mode: "cors" })
+    fetch(baseURLSpecies + number, { mode: "cors" })
         .then(response => response.json())
         .then(pokemon => displayPokemon(pokemon))
         .catch(error => console.log(error))
+}
+
+//get JSON pokemon data with type of default form
+let lookUpType = async (pokemonName) => {
+    await fetch(baseURL + pokemonName, { mode: "cors" })
+        .then(response => response.json())
+        .then(pokemon => type(pokemon))
+        .catch(error => console.log(error))
+}
+
+let type = (pokemonJSON) => {
+    if (pokemonJSON.types.length == 2) {
+        return [pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]];
+    }
+    else {
+        return pokemonJSON.types[0].type["name"];
+    }
 }
 
 //api has pokdedex entries in different languages but not always english first!
@@ -40,8 +63,10 @@ let getTheEnglishFlavorText = (pokemonJSON) => {
     }
 }
 
-let displayPokemon = (pokemonJSON) => {
+let displayPokemon = async (pokemonJSON) => {
     let pokemonName = pokemonJSON.name;
+    let pokemonType = await lookUpType(pokemonName);
+    console.log(pokemonName + " " + pokemonType);
 
     // <div class ="card">
     let card = document.createElement("div");
@@ -57,6 +82,20 @@ let displayPokemon = (pokemonJSON) => {
     let cardTitle = document.createElement("h5");
     cardTitle.classList.add("card-title");
     cardTitle.innerHTML = pokemonName;
+
+    //<span class="badge">
+    let typeBadge = document.createElement("span");
+    typeBadge.classList.add("badge");
+    if (typeof pokemonType == "string") {
+        typeBadge.innerHTML = pokemonType;
+        typeBadge.classList.add(pokemonType + "-type")
+    }
+    // else {
+    //     typeBadge.innerHTML = pokemonType[0];
+    //     typeBadge.classList.add(pokemonType[0] + "-type")
+    //     typeBadge.classList.add(pokemonType[1] + "-type")
+    // }
+    cardTitle.appendChild(typeBadge);
 
     // <image class="card-img-top">
     let image = document.createElement("img");
