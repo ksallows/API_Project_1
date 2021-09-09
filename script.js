@@ -37,6 +37,15 @@ let getThePokemon = (number) => {
         .catch(error => console.log(error))
 }
 
+//api has pokdedex entries in different languages but not always english first!
+let getTheEnglishFlavorText = (pokemonJSON) => {
+    for (i = 0; i < Object.keys(pokemonJSON).length; i++) {
+        if (pokemonJSON[i].language.name == "en") {
+            return pokemonJSON[i].flavor_text;
+        }
+    }
+}
+
 //get JSON pokemon data with type of default form
 let lookUpType = async (pokemonName) => {
     await fetch(baseURL + pokemonName, { mode: "cors" })
@@ -47,6 +56,7 @@ let lookUpType = async (pokemonName) => {
 
 let type = (pokemonJSON) => {
     if (pokemonJSON.types.length == 2) {
+        console.log([pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]]);
         return [pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]];
     }
     else {
@@ -54,19 +64,10 @@ let type = (pokemonJSON) => {
     }
 }
 
-//api has pokdedex entries in different languages but not always english first!
-let getTheEnglishFlavorText = (pokemonJSON) => {
-    for (i = 0; i < Object.keys(pokemonJSON).length; i++) {
-        if (pokemonJSON[i].language.name == "en") {
-            return pokemonJSON[i].flavor_text;
-        }
-    }
-}
-
 let displayPokemon = async (pokemonJSON) => {
     let pokemonName = pokemonJSON.name;
     let pokemonType = await lookUpType(pokemonName);
-    console.log(pokemonName + " " + pokemonType);
+    console.log(pokemonType);
 
     // <div class ="card">
     let card = document.createElement("div");
