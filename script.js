@@ -119,7 +119,6 @@ let loadMore = () => {
     for (i = 1; i <= 14; i++) {
         getThePokemon(randomPokemonNumber());
     }
-    //window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -127,5 +126,4 @@ window.addEventListener("DOMContentLoaded", () => {
     for (i = 1; i <= 14; i++) {
         getThePokemon(randomPokemonNumber());
     }
-    displayPokemon;
 })
