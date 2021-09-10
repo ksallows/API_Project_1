@@ -90,7 +90,7 @@ let displayPokemon = async (pokemonJSON) => {
         typeBadge1.classList.add(pokemonType + "-type")
         cardTitle.appendChild(typeBadge1);
     }
-    else {
+    else if (typeof pokemonType == "object") {
         typeBadge1.innerHTML = pokemonType[0];
         typeBadge2.innerHTML = pokemonType[1];
         typeBadge1.classList.add(pokemonType[0] + "-type")
