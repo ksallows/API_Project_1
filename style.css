@@ -54,7 +54,7 @@ body {
 .card-text {
     height:100px;
     overflow:auto;
-    scrollbar-color:#8aa8ff transparent;
+    scrollbar-color:#222 transparent;
     padding:5px;
 }
 
