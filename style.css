@@ -1,6 +1,6 @@
 body {
     font-family:"Roboto", sans-serif;
-    background-color:#29313d;
+    background-color:#fff;
 }
 
 .card-img-top {
@@ -31,8 +31,8 @@ body {
     width:100%;
     border-radius:0;
     background-color:#8aa8ff;
-    color:#29313d;
     font-weight:700;
+    border:0;
 }
 
 .card-text {

@@ -11,17 +11,17 @@ let imageUrl = (pokemonName) => `https://img.pokemondb.net/artwork/large/${pokem
 
 //pokemon with forms that make the image fetch by url not work
 const exceptions = {
-    eiscue: "eiscue-ice",
-    lycanroc: "lycanroc-midday",
-    urshifu: "urshifu-single-strike",
-    morpeko: "morpeko-full-belly",
-    giratina: "giratina-altered",
-    wishiwashi: "wishiwashi-solo",
-    shaymin: "shaymin-land",
-    oricorio: "oricorio-baile"
+    eiscue: "-ice",
+    lycanroc: "-midday",
+    urshifu: "-single-strike",
+    morpeko: "-full-belly",
+    giratina: "-altered",
+    wishiwashi: "-solo",
+    shaymin: "-land",
+    oricorio: "-baile"
 }
 
-let checkNameForURL = (pokemonName) => Object.keys(exceptions).includes(pokemonName) ? exceptions[pokemonName] : pokemonName
+let checkNameForURL = (pokemonName) => Object.keys(exceptions).includes(pokemonName) ? pokemonName + exceptions[pokemonName] : pokemonName
 
 let randomPokemonNumber = () => {
     let min = Math.ceil(1);
@@ -47,8 +47,8 @@ let getTheEnglishFlavorText = (pokemonJSON) => {
 }
 
 //get JSON pokemon data with type of default form
-let lookUpType = async (pokemonName) => {
-    return await fetch(baseURL + pokemonName, { mode: "cors" })
+let lookUpType = async (pokemonID) => {
+    return await fetch(baseURL + pokemonID, { mode: "cors" })
         .then(response => response.json())
         .then(pokemon => type(pokemon))
         .catch(error => console.log(error));
@@ -65,7 +65,8 @@ let type = (pokemonJSON) => {
 
 let displayPokemon = async (pokemonJSON) => {
     let pokemonName = pokemonJSON.name;
-    let pokemonType = await lookUpType(pokemonName);
+    let pokemonID = pokemonJSON.id;
+    let pokemonType = await lookUpType(pokemonID);
 
     // <div class ="card">
     let card = document.createElement("div");
