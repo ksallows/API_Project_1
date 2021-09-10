@@ -48,15 +48,14 @@ let getTheEnglishFlavorText = (pokemonJSON) => {
 
 //get JSON pokemon data with type of default form
 let lookUpType = async (pokemonName) => {
-    await fetch(baseURL + pokemonName, { mode: "cors" })
+    return await fetch(baseURL + pokemonName, { mode: "cors" })
         .then(response => response.json())
         .then(pokemon => type(pokemon))
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
 }
 
 let type = (pokemonJSON) => {
     if (pokemonJSON.types.length == 2) {
-        console.log([pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]]);
         return [pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]];
     }
     else {
@@ -67,13 +66,10 @@ let type = (pokemonJSON) => {
 let displayPokemon = async (pokemonJSON) => {
     let pokemonName = pokemonJSON.name;
     let pokemonType = await lookUpType(pokemonName);
-    console.log(pokemonType);
 
     // <div class ="card">
     let card = document.createElement("div");
-    card.classList.add("card");
-    card.classList.add("mx-1");
-    card.classList.add("my-1");
+    card.classList.add("card", "mx-1", "my-1");
 
     // <div class="card-body">
     let cardBody = document.createElement("div");
@@ -85,18 +81,23 @@ let displayPokemon = async (pokemonJSON) => {
     cardTitle.innerHTML = pokemonName;
 
     //<span class="badge">
-    let typeBadge = document.createElement("span");
-    typeBadge.classList.add("badge");
+    let typeBadge1 = document.createElement("span");
+    let typeBadge2 = document.createElement("span");
+    typeBadge1.classList.add("badge", "align-middle");
+    typeBadge2.classList.add("badge", "align-middle");
     if (typeof pokemonType == "string") {
-        typeBadge.innerHTML = pokemonType;
-        typeBadge.classList.add(pokemonType + "-type")
+        typeBadge1.innerHTML = pokemonType;
+        typeBadge1.classList.add(pokemonType + "-type")
+        cardTitle.appendChild(typeBadge1);
     }
-    // else {
-    //     typeBadge.innerHTML = pokemonType[0];
-    //     typeBadge.classList.add(pokemonType[0] + "-type")
-    //     typeBadge.classList.add(pokemonType[1] + "-type")
-    // }
-    cardTitle.appendChild(typeBadge);
+    else {
+        typeBadge1.innerHTML = pokemonType[0];
+        typeBadge2.innerHTML = pokemonType[1];
+        typeBadge1.classList.add(pokemonType[0] + "-type")
+        typeBadge2.classList.add(pokemonType[1] + "-type")
+        cardTitle.appendChild(typeBadge1);
+        cardTitle.appendChild(typeBadge2);
+    }
 
     // <image class="card-img-top">
     let image = document.createElement("img");
@@ -115,15 +116,18 @@ let displayPokemon = async (pokemonJSON) => {
     cardBody.appendChild(cardText);
 }
 
+
+let columns = Math.floor(window.innerWidth / 360);
+
 let loadMore = () => {
-    for (i = 1; i <= 14; i++) {
+    for (i = 1; i <= columns * 2; i++) {
         getThePokemon(randomPokemonNumber());
     }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     loadMoreButton.addEventListener("click", loadMore);
-    for (i = 1; i <= 14; i++) {
+    for (i = 1; i <= columns * 2; i++) {
         getThePokemon(randomPokemonNumber());
     }
 })
