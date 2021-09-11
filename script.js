@@ -54,6 +54,7 @@ let lookUpType = async (pokemonID) => {
         .catch(error => console.log(error));
 }
 
+//return an array of two types if the pokemon has two or a string of one type if the pokemon has one
 let type = (pokemonJSON) => {
     if (pokemonJSON.types.length == 2) {
         return [pokemonJSON.types[0].type["name"], pokemonJSON.types[1].type["name"]];
@@ -63,6 +64,7 @@ let type = (pokemonJSON) => {
     }
 }
 
+//display the current pokemon using a bootstrap card component
 let displayPokemon = async (pokemonJSON) => {
     let pokemonName = pokemonJSON.name;
     let pokemonID = pokemonJSON.id;
@@ -119,7 +121,7 @@ let displayPokemon = async (pokemonJSON) => {
     cardBody.appendChild(cardText);
 }
 
-
+//determine the ammound of columns based on screen width
 let columns = Math.floor(window.innerWidth / 360);
 
 let loadMore = () => {
