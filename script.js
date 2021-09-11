@@ -41,7 +41,7 @@ let getThePokemon = (number) => {
 let getTheEnglishFlavorText = (pokemonJSON) => {
     for (i = 0; i < Object.keys(pokemonJSON).length; i++) {
         if (pokemonJSON[i].language.name == "en") {
-            return pokemonJSON[i].flavor_text;
+            return pokemonJSON[i].flavor_text.replace(/[^a-zA-Z0-9 \.\n]/g, ""); //CHROME (not firefox) was giving a weird up arrow character. Why?????????
         }
     }
 }
